@@ -56,7 +56,7 @@ function SingleComment(props) {
                         {props.comment.content}
                     </p>
                 }
-            ></Comment>
+            >{console.log("싱글컴포넌트.js / 코맨트의 props.comment.writer.name 가 없다 ? ", props.comment.writer.name)}</Comment>
 
             { OpenReply &&
                 <form style={{ display: 'flex' }} onSubmit={onSubmit}>

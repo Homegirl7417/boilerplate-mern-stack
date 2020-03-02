@@ -111,7 +111,7 @@ function LikeDislikes(props) {
                         setDislikes(Dislikes + 1);
                         setDislikeAction('disliked');
 
-                        if(DislikeAction !== null) {
+                        if(LikeAction !== null) {
                             //Like이 클릭되어있던 상황
                             setLikeAction(null)
                             setLikes(Likes - 1);
@@ -145,7 +145,7 @@ function LikeDislikes(props) {
                     />
                 </Tooltip>
                 <span style={{ paddingLeft: '8px', cursor: 'auto' }}>{Dislikes}</span>
-            </span>
+            </span>&nbsp;&nbsp;
         </div>
     )
 }

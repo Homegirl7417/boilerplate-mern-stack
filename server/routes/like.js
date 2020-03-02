@@ -76,7 +76,7 @@ router.post("/unLike", (req, res) => {
     Like.findOneAndDelete(variable)
     .exec((err, result) => {
         if(err) return res.status(400).json({ success: false, err })
-        res.status(200).json({ sucess: true })
+        res.status(200).json({ success: true })
     })
 })
 
@@ -92,7 +92,7 @@ router.post("/unDislike", (req, res) => {
     Dislike.findOneAndDelete(variable)
     .exec((err, result) => {
         if(err) return res.status(400).json({ success: false, err })
-        res.status(200).json({ sucess: true })
+        res.status(200).json({ success: true })
     })
 })
 
