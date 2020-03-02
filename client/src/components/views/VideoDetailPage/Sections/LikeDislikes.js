@@ -51,6 +51,79 @@ function LikeDislikes(props) {
 
 
     }, [])
+
+    const onLike = () => {
+        
+        if(LikeAction === null ) {
+            //내가 아직 좋아요를 누르지 않은 상황
+            //like를 하나 올려줘야 함
+            axios.post('/api/like/upLike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setLikes(Likes + 1);
+                        setLikeAction('liked');
+
+                        if(DislikeAction !== null) {
+                            //Dislike이 클릭되어있던 상황
+                            setDislikeAction(null)
+                            setDislikes(Dislikes - 1);
+                        } 
+                    } else {
+                        alert('Like를 올리지 못했습니다.')
+                    }
+                })
+        } else {
+
+            //내가 좋아요를 이전에 누른 상황.
+            //내가 누른 좋아요를 지워야함.
+            axios.post('/api/like/unLike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setLikes(Likes - 1);
+                        setLikeAction(null);
+                    } else {
+                        alert('Like를 내리지 못했습니다.')
+                    }
+                })
+        }
+    }
+
+    const onDislike = () => {
+        if(DislikeAction  !== null) {
+            //이미 싫어요가 클릭 되어있는 상태.
+            //싫어요를 클릭을 해제해야 하는 상황.
+            axios.post('/api/like/unDislike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setDislikes(Dislikes - 1);
+                        setDislikeAction(null);
+                    } else {
+                        alert('dislike를 지우지 못했습니다.')
+                    }
+                })
+            
+        } else {
+            //Dislike 버튼이 클릭이 되지 않은 상황에서
+            //Dislike을 클릭했을때
+            axios.post('/api/like/upDislike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setDislikes(Dislikes + 1);
+                        setDislikeAction('disliked');
+
+                        if(DislikeAction !== null) {
+                            //Like이 클릭되어있던 상황
+                            setLikeAction(null)
+                            setLikes(Likes - 1);
+                        } 
+                    } else {
+                        alert('dislike를 하지 못했습니다.')
+                    }
+            })
+
+        }
+    }
+
     return (
         <div>
             <span key="comment-basic-like">
@@ -58,17 +131,17 @@ function LikeDislikes(props) {
                     <Icon 
                         type="like"
                         theme={LikeAction === 'liked' ? 'filled' : 'outlined'}
-                        onClick />
+                        onClick={onLike} />
                 </Tooltip>
                 <span style={{ paddingLeft: '8px', cursor: 'auto' }}>{Likes}</span>
-            </span>
+            </span>&nbsp;&nbsp;
 
             <span key="comment-basic-dislike">
                 <Tooltip title="Dislike">
                     <Icon
                         type="dislike"
                         theme={DislikeAction === 'disliked' ? 'filled' : 'outlined'}
-                        onClick
+                        onClick={onDislike}
                     />
                 </Tooltip>
                 <span style={{ paddingLeft: '8px', cursor: 'auto' }}>{Dislikes}</span>
